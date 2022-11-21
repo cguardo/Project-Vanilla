@@ -100,7 +100,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 <!DOCTYPE html>
 <html lang="en">
 <head>
-	<title>Login V18</title>
+	<title>Project Vanilla</title>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 <!--===============================================================================================-->	
@@ -180,9 +180,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 			
 
 					<div class="container-login100-form-btn">
-						<button class="login100-form-btn">
-							Login
-						</button>
+						<!-- <button class="login100-form-btn" value="Register"></button> -->
+                        <input type="submit" class="login100-form-btn" value="Register">
 					</div>
 					
 				
