@@ -130,8 +130,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 	
 	<div class="limiter">
 		<div class="container-login100">
-			<div class="wrap-login1001">
-				<form class="login100-form1 validate-form" action = "<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post">
+			<div class="wrap-login100">
+				<form class="login100-form validate-form" action = "<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post">
 					<span class="login100-form-title p-b-43">
 						Registration Form
 					</span>
@@ -188,8 +188,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
 				</form>
 
-				<!--<div class="login100-more" style="background-image: url('images/bg-01.jpg');">
-				</div> -->
+				<div class="login100-more" style="background-image: url('images/register.jpg');">
+				</div> 
 			</div>
 		</div>
 	</div>
