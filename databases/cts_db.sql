@@ -31,14 +31,14 @@ CREATE TABLE `employees` (
   `id` int(11) NOT NULL,
   `name` varchar(100) NOT NULL,
   `address` varchar(255) NOT NULL,
-  `salary` int(10) NOT NULL
+  `date` date(10) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `employees`
 --
 
-INSERT INTO `employees` (`id`, `name`, `address`, `salary`) VALUES
+INSERT INTO `employees` (`id`, `name`, `address`, `date`) VALUES
 (1, 'DANICA', 'milflores', 1357),
 (2, 'nne', 'Blk. 1 Lot 29 Catleya Street, Samama II, Brgy. Napindan', 123456);
 

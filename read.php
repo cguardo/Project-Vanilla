@@ -26,7 +26,7 @@ if (isset($_GET["id"]) && !empty(trim($_GET["id"]))) {
                 // Retrieve individual field value
                 $name = $row["name"];
                 $address = $row["address"];
-                $salary = $row["salary"];
+                $date = $row["date"];
             } else {
                 // URL doesn't contain valid id parameter. Redirect to error page
                 header("location: error.php");
@@ -80,8 +80,8 @@ else {
                         <p><b><?php echo $row["address"]; ?></b></p>
                     </div>
                     <div class="form-group">
-                        <label>Salary</label>
-                        <p><b><?php echo $row["salary"]; ?></b></p>
+                        <label>Expiration Date</label>
+                        <p><b><?php echo $row["date"]; ?></b></p>
                     </div>
                     <p><a href="index.php" class="btn btn-primary">Back</a></p>
                 </div>
