@@ -34,7 +34,7 @@
   --bs-gray-800: #343a40;
   --bs-gray-900: #212529;
   --bs-primary: #1abc9c;
-  --bs-secondary: #2c3e50;
+  --bs-secondary: #fcfcfc;
   --bs-success: #198754;
   --bs-info: #0dcaf0;
   --bs-warning: #ffc107;
@@ -60,8 +60,8 @@
   --bs-body-font-size: 1rem;
   --bs-body-font-weight: 400;
   --bs-body-line-height: 1.5;
-  --bs-body-color: #212529;
-  --bs-body-bg: #fff;
+  --bs-body-color: #ffffff;
+  --bs-body-bg: rgb(255, 255, 255);
 }
 
 *,
@@ -235,12 +235,12 @@ sup {
   top: -0.5em;
 }
 
-a {
-  color: #1abc9c;
+a { /*inside table actions*/
+  color: #b19d9d;
   text-decoration: underline;
 }
 a:hover {
-  color: #15967d;
+  color: #b19d9d;
 }
 
 a:not([href]):not([class]), a:not([href]):not([class]):hover {
@@ -2594,7 +2594,7 @@ textarea.form-control-lg {
   width: 1rem;
   height: 1rem;
   margin-top: -0.25rem;
-  background-color: #1abc9c;
+  background-color: #886a52;
   border: 0;
   border-radius: 1rem;
   -webkit-transition: background-color 0.15s ease-in-out, border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
@@ -3029,20 +3029,20 @@ textarea.form-control-lg {
   opacity: 0.65;
 }
 
-.btn-primary {
+.btn-primary { /*close window button*/
   color: #fff;
-  background-color: #1abc9c;
-  border-color: #1abc9c;
+  background-color: #886a52;
+  border-color: #886a52;
 }
 .btn-primary:hover {
   color: #fff;
-  background-color: #16a085;
-  border-color: #15967d;
+  background-color: #886a52;
+  border-color: #886a52;
 }
 .btn-check:focus + .btn-primary, .btn-primary:focus {
   color: #fff;
-  background-color: #16a085;
-  border-color: #15967d;
+  background-color: #ebf0ef;
+  border-color: #f2f5f4;
   box-shadow: 0 0 0 0.25rem rgba(60, 198, 171, 0.5);
 }
 .btn-check:checked + .btn-primary, .btn-check:active + .btn-primary, .btn-primary:active, .btn-primary.active, .show > .btn-primary.dropdown-toggle {
@@ -3091,8 +3091,8 @@ textarea.form-control-lg {
 
 .btn-success {
   color: #fff;
-  background-color: #198754;
-  border-color: #198754;
+  background-color: #886a52;
+  border-color: #886a52;
 }
 .btn-success:hover {
   color: #fff;
@@ -3150,14 +3150,14 @@ textarea.form-control-lg {
 }
 
 .btn-warning {
-  color: #000;
-  background-color: #ffc107;
-  border-color: #ffc107;
+  color: rgb(250, 249, 249);
+  background-color: #020201;
+  border-color: #020201;
 }
 .btn-warning:hover {
   color: #000;
-  background-color: #ffca2c;
-  border-color: #ffc720;
+  background-color: #858080;
+  border-color: #858080;
 }
 .btn-check:focus + .btn-warning, .btn-warning:focus {
   color: #000;
@@ -3180,9 +3180,9 @@ textarea.form-control-lg {
 }
 
 .btn-danger {
-  color: #fff;
-  background-color: #dc3545;
-  border-color: #dc3545;
+  color: rgb(17, 14, 14);
+  background-color: #bdaeae;
+  border-color: #bdaeae;
 }
 .btn-danger:hover {
   color: #fff;
@@ -11298,6 +11298,7 @@ html {
 .page-section .page-section-heading {
   font-size: 2.25rem;
   line-height: 2rem;
+  color: #000;
 }
 @media (min-width: 992px) {
   .page-section .page-section-heading {
@@ -11317,9 +11318,9 @@ html {
   width: 100%;
   max-width: 7rem;
   height: 0.25rem;
-  background-color: #2c3e50;
+  background-color: #7a7a54;
   border-radius: 1rem;
-  border-color: #2c3e50;
+  border-color: #7a7a54;
 }
 .divider-custom .divider-custom-line:first-child {
   margin-right: 1rem;
@@ -11332,10 +11333,13 @@ html {
   font-size: 2rem;
 }
 .divider-custom.divider-light .divider-custom-line {
-  background-color: #fff;
+  background-color: #f8f9fa;
 }
 .divider-custom.divider-light .divider-custom-icon {
-  color: #fff;
+  color: #f8f9fa;
+}
+.divider-custom.divider-second .divider-custom-icon {
+  color: #212529;
 }
 
 .btn-xl {
@@ -11431,7 +11435,7 @@ html {
 }
 
 .masthead {
-  padding-top: calc(6rem + 74px);
+  padding-top: calc(6rem + 20px);
   padding-bottom: 6rem;
 }
 .masthead .masthead-heading {
@@ -11494,16 +11498,17 @@ html {
   .portfolio-modal .portfolio-modal-title {
     font-size: 3rem;
     line-height: 2.5rem;
+    color: #886a52;
   }
 }
 
 .footer {
   padding-top: 5rem;
   padding-bottom: 5rem;
-  background-color: #2c3e50;
+  background-color: #886a52;
   color: #fff;
 }
 
 .copyright {
-  background-color: #1a252f;
+  background-color:#000000;
 }
