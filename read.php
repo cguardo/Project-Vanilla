@@ -50,44 +50,52 @@ else {
 }
 ?>
 
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
+  <head>
+  	<title>Record</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-<head>
-    <meta charset="UTF-8">
-    <title>View Record</title>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-    <style>
-    .wrapper {
-        width: 600px;
-        margin: 0 auto;
-    }
-    </style>
-</head>
+	<link href='https://fonts.googleapis.com/css?family=Roboto:400,100,300,700' rel='stylesheet' type='text/css'>
 
-<body>
-    <div class="wrapper">
-        <div class="container-fluid">
-            <div class="row">
-                <div class="col-md-12">
-                    <h1 class="mt-5 mb-3">View Record</h1>
-                    <div class="form-group">
-                        <label>Name</label>
-                        <p><b><?php echo $row["name"]; ?></b></p>
-                    </div>
-                    <div class="form-group">
-                        <label>Address</label>
-                        <p><b><?php echo $row["address"]; ?></b></p>
-                    </div>
-                    <div class="form-group">
-                        <label>Expiration Date</label>
-                        <p><b><?php echo $row["date"]; ?></b></p>
-                    </div>
-                    <p><a href="index.php" class="btn btn-primary">Back</a></p>
-                </div>
-            </div>
-        </div>
-    </div>
-</body>
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+	
+	<link rel="stylesheet" href="css/style.css">
 
-</html>
+	</head>
+	<body>
+	<section class="ftco-section">
+		<div class="container">
+			<div class="row justify-content-center">
+				<div class="col-md-6 text-center mb-5">
+					<h2 class="heading-section">Record</h2>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-md-12">
+					<div class="table-wrap">
+						<table class="table table-bordered table-dark table-hover">
+						  <thead>
+						    <tr>
+
+						      <th>Name</th>
+						      <th>Address</th>
+						      <th>Expiration Date</th>
+						    </tr>
+						  </thead>
+						  <tbody>
+						    <tr>
+						      
+						      <td><?php echo $row["name"]; ?></td>
+						      <td><?php echo $row["address"]; ?></td>
+						      <td><?php echo $row["date"]; ?></td>
+						    </tr>
+
+</tbody>
+						</table>
+					</div> <p><a href="index.php" class="btn btn-primary">Back</a></p>
+				</div>
+			</div>
+		</div>
+	</section> </body> </html>
