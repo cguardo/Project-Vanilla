@@ -5,7 +5,7 @@ if (isset($_GET["id"]) && !empty(trim($_GET["id"]))) {
     require_once "config.php";
 
     // Prepare a select statement
-    $sql = "SELECT * FROM employees WHERE id = ?";
+    $sql = "SELECT * FROM employees2 WHERE id = ?";
 
     if ($stmt = $mysqli->prepare($sql)) {
         // Bind variables to the prepared statement as parameters
@@ -74,7 +74,7 @@ else {
 
 
 	</head>
-	<body>
+	<body>food
     
 	<section class="ftco-section">
 		<div class="container">
