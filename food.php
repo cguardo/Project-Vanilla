@@ -93,7 +93,7 @@ if ($result = $mysqli->query('SELECT * FROM employees ORDER BY ' .  $column . ' 
                         <div class="row">
                             <div class="col-md-7">
 
-                                <form action="" method="GET">
+                                <form action="search.php" method="GET">
                                     <div class="input-group mb-3">
                                         
                                         
@@ -170,7 +170,7 @@ if ($result = $mysqli->query('SELECT * FROM employees ORDER BY ' .  $column . ' 
                                             echo $usedDays;
                                         }
                                         else if ($usedDays<=7){
-                                            $conn->query("update `employees` set status='Expiring Next week' where id='".$row['id']."'");
+                                            $conn->query("update `employees` set status='Expiring Later' where id='".$row['id']."'");
                                             echo $usedDays;
 
                                         }

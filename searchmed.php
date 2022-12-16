@@ -8,36 +8,19 @@ if (!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true) {
     exit;
 }
 
-$mysqli = mysqli_connect('localhost', 'root', '', 'cts_db'); 
-
-$columns = array('id','name','date');
-
-// Only get the column if it exists in the above columns array, if it doesn't exist the database table will be sorted by the first item in the columns array.
-$column = isset($_GET['column']) && in_array($_GET['column'], $columns) ? $_GET['column'] : $columns[0];
-
-// Get the sort order for the column, ascending or descending, default is ascending.
-$sort_order = isset($_GET['order']) && strtolower($_GET['order']) == 'desc' ? 'DESC' : 'ASC';
-
-// Get the result...
-if ($result = $mysqli->query('SELECT * FROM employees ORDER BY ' .  $column . ' ' . $sort_order)) {
-	// Some variables we need for the table.
-	$up_or_down = str_replace(array('ASC','DESC'), array('up','down'), $sort_order); 
-	$asc_or_desc = $sort_order == 'ASC' ? 'desc' : 'asc';
-	$add_class = ' class="highlight"';
-	?>
 ?>
 
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8" />
-    <meta name="viewport" tent="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
     <meta name="description" content="" />
     <meta name="author" content="" />
     <!-- <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0"> -->
-    <title>Food Table</title>
+    <title>Medicine Table</title>
     <!-- Favicon-->
     <link rel="icon" type="image/x-icon" href="assets/favicon.ico" />
     <!-- Font Awesome icons (free version)-->
@@ -71,7 +54,7 @@ if ($result = $mysqli->query('SELECT * FROM employees ORDER BY ' .  $column . ' 
                 <!-- Masthead Avatar Image-->
                 
                 <!-- Masthead Heading-->
-                <h1 class="masthead-heading text-uppercase mb-0">FOOD TRACKER</h1>
+                <h1 class="masthead-heading text-uppercase mb-0">MEDICINE TRACKER</h1>
                 <!-- Icon Divider-->
                 <div class="divider-custom divider-light">
                     <div class="divider-custom-line"></div>
@@ -79,7 +62,7 @@ if ($result = $mysqli->query('SELECT * FROM employees ORDER BY ' .  $column . ' 
                     <div class="divider-custom-line"></div>
                 </div>
                 <!-- Masthead Subheading-->
-                <p class="masthead-subheading font-weight-light mb-0">"Your dream doesn't have an expiration date, but food does."</p>
+                <p class="masthead-subheading font-weight-light mb-0">"Once your medicine is expired, You're going to feel pain and be tired"</p>
             </div>
         </header>
     
@@ -94,13 +77,13 @@ if ($result = $mysqli->query('SELECT * FROM employees ORDER BY ' .  $column . ' 
                         <div class="row">
                             <div class="col-md-7">
 
-                                <form action="search.php" method="GET">
+                                <form action="" method="GET">
                                     <div class="input-group mb-3">
                                         
                                         
                                         <input type="text" name="search" value="<?php if(isset($_GET['search'])){echo $_GET['search']; } ?>" class="form-control" placeholder="Search data">
                                         <button type="submit" class="btn btn-primary">Search</button>
-                                        <a href="foodex(di to kasama).php" class="btn btn-secondary" title="Reset search">Reset</a>
+                                        <a href="med.php" class="btn btn-secondary" title="Reset search">Reset</a>
                                     </div>
                                 </form>
 
@@ -129,15 +112,14 @@ if ($result = $mysqli->query('SELECT * FROM employees ORDER BY ' .  $column . ' 
                                 </div>
                             </div>
                         </form>
-    
-                        
+
                         <table class="table table-bordered">
                             <thead>
                                 <tr>
-                                    <th><a href="foodex(di to kasama).php?column=id&order=<?php echo $asc_or_desc; ?>">ID<i class="fas fa-sort<?php echo $column == 'id' ? '-' . $up_or_down : ''; ?>"></i></a></th>
-					                <th><a href="foodex(di to kasama).php?column=name&order=<?php echo $asc_or_desc; ?>">Food Name<i class="fas fa-sort<?php echo $column == 'name' ? '-' . $up_or_down : ''; ?>"></i></a></th>
+                                    <th>ID</th>
+					                <th>Medicine Name</th>
                                     <th>Storage</th>
-					                <th><a href="foodex(di to kasama).php?column=date&order=<?php echo $asc_or_desc; ?>">Expiration Date<i class="fas fa-sort<?php echo $column == 'date' ? '-' . $up_or_down : ''; ?>"></i></a></th>
+					                <th>Expiration Date</th>
                                     <th>Days Left</th>
                                     <th>Status</th>
                                     <th>Action</th>
@@ -151,32 +133,60 @@ if ($result = $mysqli->query('SELECT * FROM employees ORDER BY ' .  $column . ' 
                                     $query=$conn->query("select * from `employees`");
 
                                 ?>
-                                <?php while ($row = $result->fetch_assoc()): ?>
-                                    <tr>
-					                <td<?php echo $column == 'ID' ? $add_class : ''; ?>><?php echo $row['id']; ?></td>
-					                <td<?php echo $column == 'Food Name' ? $add_class : ''; ?>><?php echo $row['name']; ?></td>
-                                    <td<?php echo $column == 'Storage' ? $add_class : ''; ?>><?php echo $row['address']; ?></td>
-					                <td<?php echo $column == 'Expiration Date' ? $add_class : ''; ?>><?php echo $row['date']; ?></td>
-                                    <td>
+                                </thead>
+                                <tbody>
+
+
+
+
+
+
+                                <?php 
+                                
+                                $con = mysqli_connect("localhost","root","","cts_db");
+
+
+                                if(isset($_GET['search']))
+                                {
+                                    $filtervalues = $_GET['search'];
+                                    $query = "SELECT * FROM employees WHERE CONCAT(id,name,address,date) LIKE '%$filtervalues%' ";
+                                    $query_run = mysqli_query($con, $query);
+
+                                    if(mysqli_num_rows($query_run) > 0)
+                                    {
+
+                                                    
+                                        foreach($query_run as $items)
+                                        {
+                                            ?>
+                                            
+                                            <tr>
+                                                <td><?= $items['id']; ?></td>
+                                                <td><?= $items['name']; ?></td>
+                                                <td><?= $items['address']; ?></td>
+                                                <td><?= $items['date']; ?></td>
+                                                
+
+                                                <td>
 
                                     <?php
                                         
 
                                          $thisDate = date("Y-m-d");
-                                         $date = $row['date'];
+                                         $date = $items['date'];
                                          $usedDays = round(abs(strtotime($thisDate)-strtotime($date))/60/60/24);
                                          if($usedDays==0)
                                         {
-                                            $conn->query("update `employees` set status='Expired' where id='".$row['id']."'");
+                                            $conn->query("update `employees` set status='Expired' where id='".$items['id']."'");
                                             echo $usedDays;
                                         }
                                         else if ($usedDays<=7){
-                                            $conn->query("update `employees` set status='Expiring Next week' where id='".$row['id']."'");
+                                            $conn->query("update `employees` set status='Expiring Next week' where id='".$items['id']."'");
                                             echo $usedDays;
 
                                         }
                                         else if ($usedDays<=30){
-                                            $conn->query("update `employees` set status='Expiring Soon' where id='".$row['id']."'");
+                                            $conn->query("update `employees` set status='Expiring Soon' where id='".$items['id']."'");
                                             echo $usedDays;
 
                                         }
@@ -188,63 +198,34 @@ if ($result = $mysqli->query('SELECT * FROM employees ORDER BY ' .  $column . ' 
                                        ?>
                                 
                                     </td>
-                                    <td><?php echo $row['status']; ?></td>
-                                    <td><a href="read.php?id=<?php echo $row['id']; ?>"><span class="fa fa-eye"></span></a>&nbsp;
-                                    <a href="update.php?id=<?php echo $row['id']; ?>"><span class="fa fa-pencil"></span></a>&nbsp;
-                                    <a href="delete.php?id=<?php echo $row['id']; ?>"><span class="fa fa-trash"></span></a>
-                                </td>
-				                    </tr>
-                                    <?php endwhile; ?>
-                            </thead>
-                            <tbody>
-                                <?php 
-                                
-                                    $con = mysqli_connect("localhost","root","","cts_db");
+                                    <td><?php echo $items['status']; ?></td>
 
 
-                                    if(isset($_GET['search']))
-                                    {
-                                        $filtervalues = $_GET['search'];
-                                        $query = "SELECT * FROM employees WHERE CONCAT(id,name,address,date) LIKE '%$filtervalues%' ";
-                                        $query_run = mysqli_query($con, $query);
 
-                                        if(mysqli_num_rows($query_run) > 0)
-                                        {
 
-                                                        
-                                            foreach($query_run as $items)
-                                            {
-                                                ?>
+                                                <td><a href="read.php?id=<?php echo $items['id']; ?>"><span class="fa fa-eye"></span></a>&nbsp;
+                                                <a href="update.php?id=<?php echo $items['id']; ?>"><span class="fa fa-pencil"></span></a>&nbsp;
+                                                <a href="delete.php?id=<?php echo $items['id']; ?>"><span class="fa fa-trash"></span></a>
+                                                </td>
                                                 
-                                                <tr>
-                                                    <td><?= $items['id']; ?></td>
-                                                    <td><?= $items['name']; ?></td>
-                                                    <td><?= $items['address']; ?></td>
-                                                    <td><?= $items['date']; ?></td>
-                                                    
-                                                    
-                                                </tr>
-                                                <?php
-                                            }
-                                        }
-                                        else
-                                        {
-                                            ?>
-                                                <tr>
-                                                    <td colspan="4">No Record Found</td>
-                                                </tr>
+                                                
+                                            </tr>
                                             <?php
                                         }
                                     }
+                                    else
+                                    {
+                                        ?>
+                                            <tr>
+                                                <td colspan="4">No Record Found</td>
+                                            </tr>
+                                        <?php
+                                    }
+                                }
 
-
-
-                                    
-
-
-
-                                }      
-                                ?>
+                                                        
+                                            
+                        ?>
 
                             </tbody>
                         </table>

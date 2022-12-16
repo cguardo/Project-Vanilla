@@ -84,7 +84,7 @@ if (!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true) {
                         </div>
                         <br>
                         <div style="padding-left: 90px;">
-                            <a href="foodex(di to kasama).php" class="btn btn-success pull-right">
+                            <a href="food.php" class="btn btn-success pull-right">
                                 <i class="fas fa-table"></i>
                                 Display Food Table
                             </a>

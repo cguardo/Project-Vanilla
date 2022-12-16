@@ -93,7 +93,7 @@ if ($result = $mysqli->query('SELECT * FROM employees2 ORDER BY ' .  $column . '
                         <div class="row">
                             <div class="col-md-7">
 
-                                <form action="" method="GET">
+                                <form action="searchmed.php" method="GET">
                                     <div class="input-group mb-3">
                                         
                                         

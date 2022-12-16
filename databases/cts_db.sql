@@ -46,6 +46,18 @@ INSERT INTO `employees` (`id`, `name`, `address`, `date`) VALUES
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `employees2`
+--
+
+CREATE TABLE `employees2` (
+  `id` int(11) NOT NULL,
+  `name` varchar(100) NOT NULL,
+  `address` varchar(255) NOT NULL,
+  `date` date,
+  `status` varchar(15) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
 -- Table structure for table `users`
 --
 
