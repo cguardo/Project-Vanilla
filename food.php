@@ -7,7 +7,23 @@ if (!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true) {
     header("location: login.php");
     exit;
 }
+$mysqli = mysqli_connect('localhost', 'root', '', 'cts_db'); 
 
+$columns = array('id','name','date');
+
+// Only get the column if it exists in the above columns array, if it doesn't exist the database table will be sorted by the first item in the columns array.
+$column = isset($_GET['column']) && in_array($_GET['column'], $columns) ? $_GET['column'] : $columns[0];
+
+// Get the sort order for the column, ascending or descending, default is ascending.
+$sort_order = isset($_GET['order']) && strtolower($_GET['order']) == 'desc' ? 'DESC' : 'ASC';
+
+// Get the result...
+if ($result = $mysqli->query('SELECT * FROM employees ORDER BY ' .  $column . ' ' . $sort_order)) {
+	// Some variables we need for the table.
+	$up_or_down = str_replace(array('ASC','DESC'), array('up','down'), $sort_order); 
+	$asc_or_desc = $sort_order == 'ASC' ? 'desc' : 'asc';
+	$add_class = ' class="highlight"';
+	?>
 ?>
 
 <!DOCTYPE html>
@@ -79,8 +95,11 @@ if (!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true) {
 
                                 <form action="" method="GET">
                                     <div class="input-group mb-3">
-                                        <input type="text" name="search" required value="<?php if(isset($_GET['search'])){echo $_GET['search']; } ?>" class="form-control" placeholder="Search data">
+                                        
+                                        
+                                        <input type="text" name="search" value="<?php if(isset($_GET['search'])){echo $_GET['search']; } ?>" class="form-control" placeholder="Search data">
                                         <button type="submit" class="btn btn-primary">Search</button>
+                                        <a href="food.php" class="btn btn-secondary" title="Reset search">Reset</a>
                                     </div>
                                 </form>
 
@@ -98,14 +117,7 @@ if (!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true) {
                             <div class="row">
                                 <div class="col-md-4">
                                     <div class="input-group mb-3">
-                                        <select name="sort_alphabet" class="form-control">
-                                            <option value="">--Select Option--</option>
-                                            <option value="a-z" <?php if(isset($_GET['sort_alphabet']) && $_GET['sort_alphabet'] == "a-z"){ echo "selected"; } ?> > Soon - Near (Expiration Date)</option>
-                                            <option value="z-a" <?php if(isset($_GET['sort_alphabet']) && $_GET['sort_alphabet'] == "z-a"){ echo "selected"; } ?> > Near - Soon (Expiration Date)</option>
-                                        </select>
-                                        <button type="submit" class="input-group-text btn btn-primary" id="basic-addon2">
-                                            Sort
-                                        </button>
+                                    
                                     </div>
                                     <div class="mt-5 mb-3 clearfix">
                                         <!--<i class="fa-sharp fa-solid fa-plate-utensils"></i>-->
@@ -121,18 +133,73 @@ if (!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true) {
                         <table class="table table-bordered">
                             <thead>
                                 <tr>
-                                    <th>ID</th>
-                                    <th>Food Name</th>
-                                    <th>Status (Days Left)</th>
-                                    <th>Date</th>
+                                    <th><a href="food.php?column=id&order=<?php echo $asc_or_desc; ?>">ID<i class="fas fa-sort<?php echo $column == 'id' ? '-' . $up_or_down : ''; ?>"></i></a></th>
+					                <th><a href="food.php?column=name&order=<?php echo $asc_or_desc; ?>">Food Name<i class="fas fa-sort<?php echo $column == 'name' ? '-' . $up_or_down : ''; ?>"></i></a></th>
+                                    <th>Storage</th>
+					                <th><a href="food.php?column=date&order=<?php echo $asc_or_desc; ?>">Expiration Date<i class="fas fa-sort<?php echo $column == 'date' ? '-' . $up_or_down : ''; ?>"></i></a></th>
+                                    <th>Days Left</th>
+                                    <th>Status</th>
                                     <th>Action</th>
                                 </tr>
+                                <?php
+                                    $conn = new mysqli("localhost","root","","cts_db");
+                                    if ($conn->connect_error) {
+                                        die("Connection failed: " . $conn->connect_error);
+                                    } 
+
+                                    $query=$conn->query("select * from `employees`");
+
+                                ?>
+                                <?php while ($row = $result->fetch_assoc()): ?>
+                                    <tr>
+					                <td<?php echo $column == 'ID' ? $add_class : ''; ?>><?php echo $row['id']; ?></td>
+					                <td<?php echo $column == 'Food Name' ? $add_class : ''; ?>><?php echo $row['name']; ?></td>
+                                    <td<?php echo $column == 'Storage' ? $add_class : ''; ?>><?php echo $row['address']; ?></td>
+					                <td<?php echo $column == 'Expiration Date' ? $add_class : ''; ?>><?php echo $row['date']; ?></td>
+                                    <td>
+
+                                    <?php
+                                        
+
+                                         $thisDate = date("Y-m-d");
+                                         $date = $row['date'];
+                                         $usedDays = round(abs(strtotime($thisDate)-strtotime($date))/60/60/24);
+                                         if($usedDays==0)
+                                        {
+                                            $conn->query("update `employees` set status='Expired' where id='".$row['id']."'");
+                                            echo $usedDays;
+                                        }
+                                        else if ($usedDays<=7){
+                                            $conn->query("update `employees` set status='Expiring Next week' where id='".$row['id']."'");
+                                            echo $usedDays;
+
+                                        }
+                                        else if ($usedDays<=30){
+                                            $conn->query("update `employees` set status='Expiring Soon' where id='".$row['id']."'");
+                                            echo $usedDays;
+
+                                        }
+                                        else
+                                        {
+                                            echo $usedDays;
+                                        }
+
+                                       ?>
+                                
+                                    </td>
+                                    <td><?php echo $row['status']; ?></td>
+                                    <td><a href="read.php?id=<?php echo $row['id']; ?>"><span class="fa fa-eye"></span></a>&nbsp;
+                                    <a href="update.php?id=<?php echo $row['id']; ?>"><span class="fa fa-pencil"></span></a>&nbsp;
+                                    <a href="delete.php?id=<?php echo $row['id']; ?>"><span class="fa fa-trash"></span></a>
+                                </td>
+				                    </tr>
+                                    <?php endwhile; ?>
                             </thead>
                             <tbody>
                                 <?php 
+                                
                                     $con = mysqli_connect("localhost","root","","cts_db");
 
-                                    
 
                                     if(isset($_GET['search']))
                                     {
@@ -142,19 +209,19 @@ if (!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true) {
 
                                         if(mysqli_num_rows($query_run) > 0)
                                         {
+
+                                                        
                                             foreach($query_run as $items)
                                             {
                                                 ?>
+                                                
                                                 <tr>
                                                     <td><?= $items['id']; ?></td>
                                                     <td><?= $items['name']; ?></td>
                                                     <td><?= $items['address']; ?></td>
                                                     <td><?= $items['date']; ?></td>
-                                                    <td>
-                                                    <a href="read.php?id=' . $row['id'] . '" class="mr-3" title="View Record" data-toggle="tooltip"><span class="fa fa-eye"></span></a>';
-                                                    <a href="update.php?id=' . $row['id'] . '" class="mr-3" title="Update Record" data-toggle="tooltip"><span class="fa fa-pencil"></span></a>';
-                                                    <a href="delete.php?id=' . $row['id'] . '" title="Delete Record" data-toggle="tooltip"><span class="fa fa-trash"></span></a>';
-                                                    </td>
+                                                    
+                                                    
                                                 </tr>
                                                 <?php
                                             }
@@ -171,44 +238,11 @@ if (!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true) {
 
 
 
-                                    $sort_option = "";
-                                        if(isset($_GET['sort_alphabet']))
-                                        {
-                                            if($_GET['sort_alphabet'] == "a-z")
-                                            {
-                                                $sort_option = "ASC";
-                                            }
-                                            elseif($_GET['sort_alphabet'] == "z-a")
-                                            {
-                                                $sort_option = "DESC";
-                                            }
-                                        }
-                                        
-                                        $query = "SELECT * FROM employees ORDER BY date $sort_option";
-                                        $query_run = mysqli_query($con, $query);
+                                    
 
-                                        if(mysqli_num_rows($query_run) > 0)
-                                        {
-                                            foreach($query_run as $row)
-                                            {
-                                                ?>
-                                                <tr>
-                                                    <td><?= $row['id']; ?></td>
-                                                    <td><?= $row['name']; ?></td>
-                                                    <td><?= $row['address']; ?></td>
-                                                    <td><?= $row['date']; ?></td>
-                                                </tr>
-                                                <?php
-                                            }
-                                        }
-                                        else
-                                        {
-                                            ?>
-                                                <tr>
-                                                    <td colspan="3">No Record Found</td>
-                                                </tr>
-                                            <?php
-                                        }
+
+
+                                }      
                                 ?>
 
                             </tbody>
@@ -216,7 +250,11 @@ if (!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true) {
 
                     </div>
                 </div>
-
+                <div class="mt-5 mb-3 clearfix">
+                                        <!--<i class="fa-sharp fa-solid fa-plate-utensils"></i>-->
+                                        <!--<h2 class="pull-left">Employees Details</h2>-->
+                                        <a href="welcome.php" class="btn btn-success pull-right"><i class="fa fa-angle-left"></i> Back to Home</a>
+                                        </div>                      
             </div>
         </div>
     </div>

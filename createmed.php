@@ -21,7 +21,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // Validate address
     $input_address = trim($_POST["address"]);
     if (empty($input_address)) {
-        $address_err = "Please enter an address.";
+        $address_err = "Storage";
     } else {
         $address = $input_address;
     }
@@ -54,7 +54,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             // Attempt to execute the prepared statement
             if ($stmt->execute()) {
                 // Records created successfully. Redirect to landing page
-                header("location: index.php");
+                header("location: med.php");
                 exit();
             } else {
                 echo "Oops! Something went wrong. Please try again later.";
@@ -107,7 +107,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 			<div class="wrap-login1001">
             <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post">
 					<span class="login100-form-title p-b-43">
-                    Create Record
+                    Add Medicine Record
 					</span>
                     <p>Please fill this form and submit to add employee record to the database.</p>
 
@@ -115,7 +115,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 					<div class="wrap-input100 validate-input" data-validate = "Enter a valid name">
 						<input type="text" name="name" class="input100 <?php echo (!empty($name_err)) ? 'is-invalid' : ''; ?>" value="<?php echo $name; ?>">
 						<span class="focus-input100"></span>
-						<span class="label-input100">Name</span>
+						<span class="label-input100">Medicine Name</span>
 						<span class="invalid-feedback"><?php echo $name_err; ?></span>
 					</div>
 
@@ -123,7 +123,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 					<div class="wrap-input100 validate-input" data-validate = "Enter a valid address">
 						<input type="text" name="address" class="input100 <?php echo (!empty($address_err)) ? 'is-invalid' : ''; ?>"><?php echo $address; ?>
 						<span class="focus-input100"></span>
-						<span class="label-input100">Address</span>
+						<span class="label-input100">Storage</span>
                         <span class="invalid-feedback"><?php echo $address_err; ?></span>
 					</div>
 
@@ -147,7 +147,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
                     <input type="hidden" name="id" value="<?php echo $id; ?>" />
                         <input type="submit" class="btn btn-primary" value="Submit">
-                        <a href="index.php" class="btn btn-secondary ml-2">Cancel</a>
+                        <a href="med.php" class="btn btn-secondary ml-2">Cancel</a>
 
 
 				</form>

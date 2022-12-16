@@ -80,7 +80,7 @@ else {
 		<div class="container">
 			<div class="row justify-content-center">
 				<div class="col-md-6 text-center mb-5">
-					<h2 class="heading-section">View Records</h2>
+					<h2 class="heading-section">View Food Records</h2>
 				</div>
 			</div>
 			<div class="row">
@@ -90,22 +90,65 @@ else {
 						  <thead>
 						    <tr>
 
-						      <th>Name</th>
-						      <th>Address</th>
+						      <th>Food Name</th>
+						      <th>Storage</th>
 						      <th>Expiration Date</th>
+                  <th>Days Left</th>
+                  <th>Status</th>
 						    </tr>
+                
 						  </thead>
 						  <tbody>
+              <?php
+                      $conn = new mysqli("localhost","root","","cts_db");
+                      if ($conn->connect_error) {
+                          die("Connection failed: " . $conn->connect_error);
+                      } 
+
+                    $query=$conn->query("select * from `employees`");
+
+                  ?>
 						    <tr>
 						      
 						      <td><?php echo $row["name"]; ?></td>
 						      <td><?php echo $row["address"]; ?></td>
 						      <td><?php echo $row["date"]; ?></td>
+                  <td>
+                  <?php
+                                        
+
+                                         $thisDate = date("Y-m-d");
+                                         $date = $row['date'];
+                                         $usedDays = round(abs(strtotime($thisDate)-strtotime($date))/60/60/24);
+                                         if($usedDays==0)
+                                        {
+                                            $conn->query("update `employees` set status='Expired' where id='".$row['id']."'");
+                                            echo $usedDays;
+                                        }
+                                        else if ($usedDays<=7){
+                                            $conn->query("update `employees` set status='Expiring Next week' where id='".$row['id']."'");
+                                            echo $usedDays;
+
+                                        }
+                                        else if ($usedDays<=30){
+                                            $conn->query("update `employees` set status='Expiring Soon' where id='".$row['id']."'");
+                                            echo $usedDays;
+
+                                        }
+                                        else
+                                        {
+                                            echo $usedDays;
+                                        }
+
+                                       ?>
+                                
+                                    </td>
+                                    <td><?php echo $row['status']; ?></td>
 						    </tr>
 
 </tbody>
 						</table>
-					</div> <p><a href="index.php" class="btn btn-primary">Back</a></p>
+					</div> <p><a href="food.php" class="btn btn-primary">Back</a></p>
 				</div>
 			</div>
 		</div>
